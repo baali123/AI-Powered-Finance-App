@@ -50,8 +50,6 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
     setIsEditing(false);
   };
 
-  console.log(handleCancel);
-
   useEffect(() => {
     if (updatedBudget?.success) {
       setIsEditing(false);

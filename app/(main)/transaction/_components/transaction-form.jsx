@@ -1,14 +1,17 @@
 "use client";
 
-import { transactionSchema } from "@/app/lib/schema";
-import { CreateAccountDrawer } from "@/components/create-account-drawer";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarIcon, Loader2 } from "lucide-react";
+import { format } from "date-fns";
+import { useRouter, useSearchParams } from "next/navigation";
+import useFetch from "@/hooks/use-fetch";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -16,24 +19,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import useFetch from "@/hooks/use-fetch";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Calendar, CalendarIcon, Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { ReceiptScanner } from "./recipt-scanner";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CreateAccountDrawer } from "@/components/create-account-drawer";
+import { cn } from "@/lib/utils";
 import { createTransaction, updateTransaction } from "@/actions/transaction";
+import { transactionSchema } from "@/app/lib/schema";
+import { ReceiptScanner } from "./recipt-scanner";
 
-const AddTransactionForm = (
+export function AddTransactionForm({
   accounts,
   categories,
   editMode = false,
-  initialData = null
-) => {
+  initialData = null,
+}) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get("edit");
+
   const {
     register,
     handleSubmit,
@@ -87,6 +94,20 @@ const AddTransactionForm = (
     }
   };
 
+  const handleScanComplete = (scannedData) => {
+    if (scannedData) {
+      setValue("amount", scannedData.amount.toString());
+      setValue("date", new Date(scannedData.date));
+      if (scannedData.description) {
+        setValue("description", scannedData.description);
+      }
+      if (scannedData.category) {
+        setValue("category", scannedData.category);
+      }
+      toast.success("Receipt scanned successfully");
+    }
+  };
+
   useEffect(() => {
     if (transactionResult?.success && !transactionLoading) {
       toast.success(
@@ -107,25 +128,12 @@ const AddTransactionForm = (
     (category) => category.type === type
   );
 
-  const handleScanComplete = (scannedData) => {
-    if (scannedData) {
-      setValue("amount", scannedData.amount.toString());
-      setValue("date", new Date(scannedData.date));
-      if (scannedData.description) {
-        setValue("description", scannedData.description);
-      }
-      if (scannedData.category) {
-        setValue("category", scannedData.category);
-      }
-      toast.success("Receipt scanned successfully");
-    }
-  };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* AI reciept scanner */}
+      {/* Receipt Scanner - Only show in create mode */}
       {!editMode && <ReceiptScanner onScanComplete={handleScanComplete} />}
 
+      {/* Type */}
       <div className="space-y-2">
         <label className="text-sm font-medium">Type</label>
         <Select
@@ -321,6 +329,4 @@ const AddTransactionForm = (
       </div>
     </form>
   );
-};
-
-export default AddTransactionForm;
+}

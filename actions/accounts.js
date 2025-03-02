@@ -94,6 +94,12 @@ export async function bulkDeleteTransactions(transactionIds) {
             for (const [accountId, balanceChange] of Object.entries(
                 accountBalanceChanges
             )) {
+                const numericBalanceChange = Number(balanceChange);
+
+                if (isNaN(numericBalanceChange)) {
+                    console.error(`Skipping invalid balance change for account ${accountId}:`, balanceChange);
+                    continue; // Skip invalid entries
+                }
                 await tx.account.update({
                     where: { id: accountId },
                     data: {

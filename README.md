@@ -1,7 +1,5 @@
 # AI-Powered Finance App
 
-![App Banner](https://via.placeholder.com/1200x300/0062cc/ffffff?text=AI-Powered+Finance+App)
-
 ## Overview
 
 AI-Powered Finance App is a smart personal finance management tool designed to simplify how you track expenses, manage budgets, and gain insights into your financial habits. With an intuitive interface and powerful AI features, the app helps you take control of your finances with minimal effort.
@@ -27,13 +25,11 @@ Live demo: [https://ai-powered-finance-app.vercel.app/](https://ai-powered-finan
 
 ### 📸 AI Receipt Scanner
 - Snap a photo of any receipt to automatically extract details
-- Machine learning algorithms identify merchant, date, and amount
 - Auto-categorization of expenses based on merchant information
 
 ### 📈 Financial Insights
 - Monthly spending analysis and visualizations
 - Category-based spending breakdowns
-- Trend analysis to identify spending patterns
 - Personalized recommendations for saving opportunities
 
 ## Technology Stack
@@ -51,7 +47,7 @@ Live demo: [https://ai-powered-finance-app.vercel.app/](https://ai-powered-finan
 
 - Node.js (v16 or higher)
 - npm or yarn
-- MongoDB connection (local or Atlas)
+- PostgreSQL
 
 ### Installation
 
@@ -83,24 +79,6 @@ Live demo: [https://ai-powered-finance-app.vercel.app/](https://ai-powered-finan
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-## Project Structure
-
-```
-├── public/                  # Static files
-├── src/
-│   ├── components/          # React components
-│   ├── pages/               # Next.js pages
-│   ├── contexts/            # React contexts
-│   ├── hooks/               # Custom React hooks
-│   ├── lib/                 # Utility functions
-│   ├── models/              # Database models
-│   ├── services/            # API services
-│   ├── styles/              # CSS styles
-│   └── utils/               # Helper functions
-├── .env.example             # Example environment variables
-├── next.config.js           # Next.js configuration
-└── package.json             # Project dependencies
-```
 
 ## API Endpoints
 
@@ -142,18 +120,6 @@ As this application handles sensitive financial data, we take security very seri
 - Financial goal setting and tracking
 - AI-powered financial advisor capabilities
 - Dark mode and additional UI themes
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contact
-
-If you have any questions, feel free to reach out:
-
-- Email: contact@ai-powered-finance.com
-- Twitter: [@ai_finance_app](https://twitter.com/ai_finance_app)
-- Issue Tracker: [GitHub Issues](https://github.com/yourusername/ai-powered-finance-app/issues)
 
 ---
 
